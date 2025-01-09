@@ -261,9 +261,6 @@ pc.df.ut |>
   facet_wrap(.~crit, scales = 'free_x') + 
   labs(x = 'Candidates', y = 'Runs')
 
-ggsave(filename = 'Bar_alg_stab.pdf', device = 'pdf', height = 5, width = 7,
-       path = 'Outputs/Optimization/Un-targeted/50/')
-
 ggplot(data = pc.df.ut, aes(x = pc1, y = pc2)) +
   geom_point(aes(colour = smooth), size = 2) + 
   xlim(-1, .9) + ylim(-1, 0.9) + 
@@ -279,32 +276,12 @@ ggplot(data = pc.df.ut, aes(x = pc1, y = pc2)) +
               keep_scales = TRUE, unhighlighted_params = list(colour = NULL, alpha = .5), 
               calculate_per_facet = TRUE)
 
-ggsave(filename = 'PCA_freq.pdf', device = 'pdf', height = 5, width = 7,
-       path = 'Outputs/Optimization/Un-targeted/50/')
-
-# ggplot(data = pc.df.ut, aes(x = pc1, y = pc2)) +
-#   geom_point(size = 2, color = 'red') + 
-#   xlim(-1, .9) + ylim(-1, 0.9) + 
-#   labs(x = paste0('PC1 (', round(pca.dende$eig[1,2],2), '%)'),
-#        y = paste0('PC2 (', round(pca.dende$eig[2,2],2), '%)')) + 
-#   theme_bw() + theme(legend.position = 'bottom') + 
-#   facet_wrap(.~crit) + 
-#   gghighlight(trt == 1,
-#               keep_scales = TRUE, unhighlighted_params = list(colour = NULL, alpha = .5), 
-#               calculate_per_facet = TRUE)
-
 ggplot(data = pc.df.ut, aes(y = reorder(Plant, smooth), x = crit, fill = smooth)) + 
   geom_tile() + 
   scale_fill_gradient2(low = '#2b83ba', mid = '#ffffbf', high = '#d7191c',
                        midpoint = .5) + 
   theme_bw() + theme(axis.text.y = element_text(size = 6))+ 
   labs(y = 'Candidates', x = 'Criterion', fill = 'Freq')
-
-# ggplot(data = pc.df.ut, aes(y = reorder(Plant, trt), x = crit, fill = factor(trt))) + 
-#   geom_tile() + 
-#   scale_fill_viridis_d(option = 'rocket', direction = -1) + 
-#   theme_bw() + theme(axis.text.y = element_text(size = 6))+ 
-#   labs(y = 'Candidates', x = 'Criterion', fill = 'TRT')
 
 aux = pc.df.ut |> reframe(sel = mean(sel), .by = 'Plant') |> 
   mutate(pat = ifelse(sel >= 3, 'Half', 'No'))
@@ -322,11 +299,6 @@ aux |>
                      legend.position = 'bottom') +
   scale_y_continuous(breaks = seq(6)) + 
   labs(x = 'Candidates', y = 'No. optimization criteria')
-
-ggsave(filename = 'Bar_pattern_freq.pdf', device = 'pdf', height = 6, width = 8,
-       path = 'Outputs/Optimization/Un-targeted/50/')
-
-#rm(aux)
 
 
 ### Core collection ---------------
